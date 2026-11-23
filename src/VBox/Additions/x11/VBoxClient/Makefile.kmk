@@ -241,6 +241,7 @@ ifdef VBOX_WITH_SHARED_CLIPBOARD_X11_LAZY_LOAD
   VBOX_VBOXCLIENT_LIBXT_VER = 6
   VBOX_VBOXCLIENT_LIBXMU_VER = 6
   VBOX_VBOXCLIENT_LIBXRANDR_VER = 2
+  VBOX_VBOXCLIENT_LIBXEXT_VER = 6
   VBOX_VBOXCLIENT_LIBWAYLANDCLIENT_VER = 0
  endif
  ## Dynamic import no. 1: libX11.so
@@ -251,7 +252,9 @@ ifdef VBOX_WITH_SHARED_CLIPBOARD_X11_LAZY_LOAD
  $(evalcall2 VBOXCLIENT_LAZYLOAD_GEN_ASM_FN,$(PATH_ROOT)/src/VBox/GuestHost/libXmu.def,libXmu,$(VBOX_VBOXCLIENT_LIBXMU_VER))
  ## Dynamic import no. 4: libXrandr.so
  $(evalcall2 VBOXCLIENT_LAZYLOAD_GEN_ASM_FN,$(PATH_ROOT)/src/VBox/GuestHost/libXrandr.def,libXrandr,$(VBOX_VBOXCLIENT_LIBXRANDR_VER))
- ## Dynamic import no. 5: libwayland-client.so
+ ## Dynamic import no. 5: libXext.so (XShape lives here, not in libX11)
+ $(evalcall2 VBOXCLIENT_LAZYLOAD_GEN_ASM_FN,$(PATH_ROOT)/src/VBox/GuestHost/libXext.def,libXext,$(VBOX_VBOXCLIENT_LIBXEXT_VER))
+ ## Dynamic import no. 6: libwayland-client.so
  $(evalcall2 VBOXCLIENT_LAZYLOAD_GEN_ASM_FN,$(PATH_ROOT)/src/VBox/GuestHost/libwayland-client.def,libwayland-client,$(VBOX_VBOXCLIENT_LIBWAYLANDCLIENT_VER))
 endif
 
