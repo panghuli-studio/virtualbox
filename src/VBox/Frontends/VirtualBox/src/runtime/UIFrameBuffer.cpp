@@ -1027,9 +1027,12 @@ void UIFrameBufferPrivate::handleSetVisibleRegion(const QRegion &region)
         return;
 
     /* We are accounting async visible-regions one-by-one
-     * to keep corresponding viewport area always updated! */
-    if (!m_asyncVisibleRegion.isEmpty())
-        m_pMachineView->viewport()->update(m_asyncVisibleRegion - region);
+     * to keep corresponding viewport area always updated!
+     * Repaint the areas which were hidden (to erase them) as well as the areas
+     * which became visible: the guest usually reports the framebuffer update for
+     * a moved/mapped window before the new region, and that paint was clipped
+     * by the old region, so without this the new area stays transparent. */
+    m_pMachineView->viewport()->update(m_asyncVisibleRegion.xored(region));
 
     /* Remember last visible region: */
     m_asyncVisibleRegion = region;
